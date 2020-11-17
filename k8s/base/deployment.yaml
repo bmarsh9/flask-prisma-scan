@@ -19,7 +19,6 @@ spec:
           securityContext:
             runAsNonRoot: true
         # TODO: "latest" tag will change once we get argocd set up. See comment below:
-        # https://github.com/missionlane/card-transactions-ledger/pull/3#discussion_r434748572
         - image: app:latest
           name: web
           imagePullPolicy: Always
@@ -45,7 +44,6 @@ spec:
             timeoutSeconds: 2
             successThreshold: 1
           # Uncomment once we upgrade k8s to >= 1.18
-          # https://missionlane.atlassian.net/browse/CPE-884
           #startupProbe:
           #  httpGet:
           #    path: /health
