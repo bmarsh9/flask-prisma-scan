@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-service
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: cloud-sql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.17
+          command:
+            - "/cloud_sql_proxy"
+            - "-ip_address_types=PRIVATE"
+          envFrom:
+            - configMapRef:
+                name: cloud-sql-proxy-config
+                optional: true
+          securityContext:
+            runAsNonRoot: true
+        # TODO: "latest" tag will change once we get argocd set up. See comment below:
+        # https://github.com/missionlane/card-transactions-ledger/pull/3#discussion_r434748572
+        - image: app:latest
+          name: web
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: api
+            - containerPort: 9999
+              name: management
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: management
+            # Gives enough time for springboot to initialize
+            initialDelaySeconds: 180
+            periodSeconds: 3
+            timeoutSeconds: 2
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: management
+            periodSeconds: 3
+            timeoutSeconds: 2
+            successThreshold: 1
+          # Uncomment once we upgrade k8s to >= 1.18
+          # https://missionlane.atlassian.net/browse/CPE-884
+          #startupProbe:
+          #  httpGet:
+          #    path: /health
+          #    port: api
+          #  failureThreshold: 54
+          #  periodSeconds: 10
+          envFrom:
+            - configMapRef:
+                name: flask-service
+            - secretRef:
+                name: flask-creds
+            - configMapRef:
+                name: k8s-cluster-info
+          resources:
+            limits:
+              memory: 2000Mi
+              # Needed to help speedup the initialization of springboot before livenessProbe kills the pod
+              cpu: 600m
+            requests:
+              memory: 1500Mi
+              cpu: 200m
+      restartPolicy: Always
+      serviceAccountName: flask-service
