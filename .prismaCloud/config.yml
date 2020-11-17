@@ -1,6 +1,14 @@
-# Specify the template type. Valid values are as follows.
-# For Terraform: TF
-# For AWS CloudFormation: CFT
 # For Kubernetes: K8S
 
 template_type: K8S
+
+# For Terraform: TF
+
+template_type: TF
+terraform_version: 0.12
+
+terraform_012_parameters:
+  - root_module: my-terraform/modules/s3/
+    variable_files:
+      -  my-terraform/modules/s3/variables.tf
+
