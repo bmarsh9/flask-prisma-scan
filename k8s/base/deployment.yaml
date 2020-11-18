@@ -18,6 +18,7 @@ spec:
                 optional: true
           securityContext:
             runAsNonRoot: true
+            allowPrivilegeEscalation: true
         # TODO: "latest" tag will change once we get argocd set up. See comment below:
         - image: app:latest
           name: web
