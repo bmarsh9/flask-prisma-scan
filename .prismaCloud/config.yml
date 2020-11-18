@@ -12,3 +12,8 @@ template_type: K8S
 #    variable_files:
 #      -  my-terraform/modules/s3/variables.tf
 
+
+# Define tags
+tags:
+- phase:test
+- env:dev
