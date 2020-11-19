@@ -14,6 +14,6 @@ template_type: K8S
 
 
 # Define tags
-tags:
-- phase:test
-- env:dev
+#tags:
+#- phase:test
+#- env:dev
