@@ -17,7 +17,7 @@ spec:
                 name: cloud-sql-proxy-config
                 optional: true
           securityContext:
-            runAsNonRoot: true
+            runAsNonRoot: false
             allowPrivilegeEscalation: true
         # TODO: "latest" tag will change once we get argocd set up. See comment below:
         - image: app:latest
