@@ -1,2 +1,1 @@
-FROM ubuntu:16.04
-
+FROM ubuntu:precise-20151020
