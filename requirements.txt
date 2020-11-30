@@ -1,2 +1,19 @@
-flask
-requests==2.1.0
+# Flask
+marshmallow==2.15.0
+flask-marshmallow==0.8.0
+flask==1.0.2
+gunicorn==19.7.1
+blinker==1.4
+requests==2.13.0
+
+# Integrations
+bugsnag>=3.0.0
+prometheus_client>=0.0.17
+newrelic>=2.74.0.54
+boto3==1.7.20
+
+# Utils
+isodate==0.5.4
+pytz==2016.7
+futures==3.0.5
+stringcase==1.2.0
